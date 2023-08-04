@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 
 function Timer() {
 
-    const [counter, stateFunc] = useState(0)
+    const [[min, sec], stateFunc] = useState([0,0])
     const [paused, setPaused] = useState(false);
  const start = () => {
     setPaused(true)
@@ -12,7 +12,12 @@ function Timer() {
 
   const step = (): void => {
     if (paused) {
-        stateFunc(counter + 1)
+        if (sec === 59) {
+          stateFunc([min + 1, 0])
+        } else {
+          stateFunc([min, sec + 1])
+        }
+       
     } else {
         return
     }
@@ -26,7 +31,12 @@ function Timer() {
   }
   return (
     <div>
-      <p>{counter}</p>
+      <p>
+        {min.toString().padStart(2, '0')}
+        :
+        {sec.toString().padStart(2, '0')}
+
+        </p>
       <button onClick={start}>start</button>
       <button onClick={stop}>stop</button>
     </div>
